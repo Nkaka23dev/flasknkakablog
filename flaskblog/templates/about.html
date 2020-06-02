@@ -1,0 +1,28 @@
+{%extends "layout.html"%}
+{%block content%}
+<div class="row">
+<div class="col-md-6 my-2">
+<img src="{{url_for('static',filename='profile_pics/img11.jpg')}}"
+ class="img-fluid img-thumbnail bg-muted 
+    border border-muted"  alt="image">
+    <p class="font-weight-bold">My Name is Eric Nkaka  I am an enthusiast full stack software engineer.<br>
+      </p>
+      <h3 class="font-weight-bold ml-4">About The Blog</h3>
+      <p>This blog was created for sharing opinions on different topics . 
+        It doesn't give you ability to comment or like other people's posts I am looking forward
+        to allow people to comment and like posts, but it allows you to create posts and delete them.</p>
+</div>
+<div class="col-md-6 my-2">
+         <p>This blogpost allow you to create account and manage it the way you want. 
+             it gives you a full access to your account. You can update your account as well as your profile picture,
+             for other people to recognize you, if you do not upload a photo a default photo will be assigned to you.</p>
+             <p>You can check the number of posts you have, just click on your username. 
+                For updating post and deleting post you need to click on post title after being authenticated
+                and you will be redirected to the page where you can delete and update post.?</p>
+                <p>In case you forget your password or if it is known by other people, you need 
+                to request a password reset token which will be sent to your email account.
+                if you provide a wrong email account you won't be able to reset your password. </p>
+    </div>
+</div>
+
+{%endblock content%}

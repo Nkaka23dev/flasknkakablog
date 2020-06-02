@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='/css/bootstrap.min.css')}}">
+     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='main.css')}}">
+    {%if title%}
+    <title>Flask blog-{{title}}</title>
+    {%else%}
+    <title>Flask blog</title>
+    {%endif%}
+</head>
+<body>
+<header class="site-header">
+<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+<div class="container">
+<a class="navbar-brand mr-4" href="/">NkakaBlog</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarToggle">
+<div class="navbar-nav mr-auto">
+<a class="nav-item nav-link" href="{{url_for('home')}}">Home</a>
+<a class="nav-item nav-link" href="{{url_for('about')}}">About</a>
+</div>
+
+<!-- nav right side -->
+<div class="navbar-nav">
+    {% if current_user.is_authenticated%}
+    <a href="{{url_for('logout')}}" class="nav-item nav-link">Logout </a>
+    {%endif%}
+    {% if current_user.is_admin==true%}
+    <a href="{{url_for('admin_page')}}" class="nav-item nav-link">Users</a>
+    <a href="{{url_for('admin_page')}}" class="nav-item nav-link">User Posts</a>
+    {%endif%}
+</div>
+</div>
+</div>
+</nav>
+</header>
+<main role="main" class="container">
+<div class="row">
+<div class="col-md-12">
+ {% with messages=get_flashed_messages(with_categories=true)%}
+   {%if messages%}
+     {%for category,message in messages%}
+      <div class="alert alert-{{category}}">
+        {{message}}
+      </div>
+      {%endfor%}
+   {%endif%}
+ {%endwith%}
+ {%block content%}{%endblock%}
+ <table class="table table-striped table-borderless table-responsive-sm">
+<thead>
+<tr>
+ <th>sr</th>
+ <th>Picture</th>
+ <th>Username</th>
+ <th>Email</th>
+ <th>admin</th>
+ <th>Edit</th>
+ <th>Delete</th>
+</tr>
+</thead>
+<tbody>
+{%for user in users%}
+<tr>
+<td>{{loop.index}}</td>
+<td><img src="{{url_for('static',filename='profile_pics/'+user.image_file)}}" height="50" width="50"></td>
+<td>{{user.username}}</td>
+<td>{{user.email}}</td>
+<td>{{user.is_admin}}</td>
+<td><a href="#" class="btn btn-outline-info btn-sm">Edit</a></td>
+<td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal"
+  data-target="#deleteModal">Delete</button></td>
+</tr>
+<!-- modal for delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete this user?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- <div class="modal-body">
+       <p>Are you sure you want to permanently delete this post?<br>
+      if you delete it you won't get it back.</p>
+      </div> -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <form action="#" method="POST">
+       <input type="submit" value="Delete" class="btn btn-danger">
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+{%endfor%}
+</tbody>
+ </table>
+</div>
+</div>
+</main>
+<!-- footer goes here -->
+<!-- footer section start -->
+<footer id="footer" class="bg-light">
+  <div class="container">
+   <div class="row">
+      <div class="col text-center">
+  <p class="text-dark">Copyright © 2020 by 
+   <b class="text-muted font-weight-bold">Eric Nkaka</b></p>
+
+   <!-- <div class="title-underline bg-danger"></div> -->
+   <!-- <p class="mt-1 text-capitalize text-muted">Lorem ipsum dolor sit amet.</p> -->
+      </div>
+    </div>
+    <!-- end of title --> 
+  </div>
+  </footer>
+  
+  <!-- footer section end -->
+<script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js')}}"></script>
+<script src="{{ url_for('static',filename='js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='/js/bootstrap.min.js')}}"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='/css/bootstrap.min.css')}}">
+     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='main.css')}}">
+    {%if title%}
+    <title>Flask blog-{{title}}</title>
+    {%else%}
+    <title>Flask blog</title>
+    {%endif%}
+</head>
+<body>
+<header class="site-header">
+<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+<div class="container">
+<a class="navbar-brand mr-4" href="/">NkakaBlog</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarToggle">
+<div class="navbar-nav mr-auto">
+<a class="nav-item nav-link" href="{{url_for('home')}}">Home</a>
+<a class="nav-item nav-link" href="{{url_for('about')}}">About</a>
+</div>
+
+<!-- nav right side -->
+<div class="navbar-nav">
+    {% if current_user.is_authenticated%}
+    <a href="{{url_for('new_post')}}" class="nav-item nav-link">New Post</a>
+    <a href="{{url_for('account')}}" class="nav-item nav-link">Account</a>
+    <a href="{{url_for('logout')}}" class="nav-item nav-link">Logout </a>
+    {%else%}
+    <a href="{{url_for('login')}}" class="nav-item nav-link">Login </a>
+    <a href="{{url_for('register')}}" class="nav-item nav-link">Sign up</a>
+    {%endif%}
+    {% if current_user.is_admin==true%}
+    <a href="{{url_for('admin_page')}}" class="nav-item nav-link">Users</a>
+    <a href="{{url_for('admin_reg')}}" class="nav-item nav-link">Create Admin</a>
+    {%endif%}
+</div>
+</div>
+</div>
+</nav>
+</header>
+<main role="main" class="container">
+<div class="row">
+<div class="col-md-8">
+ {% with messages=get_flashed_messages(with_categories=true)%}
+   {%if messages%}
+     {%for category,message in messages%}
+      <div class="alert alert-{{category}}">
+        {{message}}
+      </div>
+      {%endfor%}
+   {%endif%}
+ {%endwith%}
+ {%block content%}{%endblock%}
+</div>
+  <div class="col-md-4">
+      <div class="content-section">
+          <h3>Life is cool with Posts</h3>
+          <p class="text-mute">You can put any information here you 'd like.
+              <ul class="list-group ">
+                  <li class="list-group-item" >Latest post</li>
+                  <li class="list-group-item">Announcements</li>
+                  <li class="list-group-item">Calenders</li>
+                  <li class="list-group-item">related information</li>
+              </ul>
+          </p>
+      </div>
+  </div>
+</div>
+</main>
+<!-- footer goes here -->
+<!-- footer section start -->
+<footer id="footer" class="bg-light">
+  <div class="container">
+   <div class="row">
+      <div class="col text-center">
+  <p class="text-dark">Copyright © 2020 by 
+   <b class="text-muted font-weight-bold">Eric Nkaka</b></p>
+
+   <!-- <div class="title-underline bg-danger"></div> -->
+   <!-- <p class="mt-1 text-capitalize text-muted">Lorem ipsum dolor sit amet.</p> -->
+      </div>
+    </div>
+    <!-- end of title --> 
+  </div>
+  </footer>
+  
+  <!-- footer section end -->
+<script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js')}}"></script>
+<script src="{{ url_for('static',filename='js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='/js/bootstrap.min.js')}}"></script>
+</body>
+</html>
